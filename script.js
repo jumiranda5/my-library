@@ -20,6 +20,12 @@ formSubmitButton.addEventListener("click", (e) => {
 
 
 function Book(author, title, pages, isFinished) {
+    if (myLibrary.length === 0) {
+        this.id = 0;
+    }
+    else {
+        this.id = myLibrary[myLibrary.length - 1].id + 1;
+    }
     this.author = author;
     this.title = title;
     this.pages = pages;
@@ -49,12 +55,20 @@ function addBookToTable() {
     const titleCell = row.insertCell(1);
     const pagesCell = row.insertCell(2);
     const checkboxCell = row.insertCell(3);
+    const removeButtonCell = row.insertCell(4);
+
+    // Last book index
+    const index = myLibrary.length -1;
+    const bookId = myLibrary[index].id;
 
     // Add content to the new cells:
-    authorCell.innerHTML = myLibrary[myLibrary.length -1].author;
-    titleCell.innerHTML = myLibrary[myLibrary.length -1].title;
-    pagesCell.innerHTML = myLibrary[myLibrary.length -1].pages;
-    checkboxCell.innerHTML = myLibrary[myLibrary.length -1].isFinished;
+    authorCell.innerHTML = myLibrary[index].author;
+    titleCell.innerHTML = myLibrary[index].title;
+    pagesCell.innerHTML = myLibrary[index].pages;
+    checkboxCell.innerHTML = myLibrary[index].isFinished;
+
+    // Insert button to remove book
+    removeButtonCell.innerHTML = `<button type="button" onclick="removeBook(this)" data-book-id="${bookId}">Remove</button>`
 
 }
 
@@ -64,4 +78,18 @@ function clearFormInputs() {
     titleInput.value = "";
     pagesInput.value = "";
     finishedInput.checked = false;
+}
+
+
+function removeBook(removeButton) {
+
+    // Remove book from myLibrary list => find array index using book id
+    const bookId = parseInt(removeButton.getAttribute("data-book-id"));
+    const bookIndex = myLibrary.findIndex(book => book.id === bookId);
+    myLibrary.splice(bookIndex, 1);
+
+    // Remove book from table
+    const rowIndex = removeButton.parentNode.parentNode.rowIndex;
+    table.deleteRow(rowIndex);
+
 }
