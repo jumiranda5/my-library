@@ -7,16 +7,35 @@ const titleInput = document.getElementById("title");
 const authorInput = document.getElementById("author");
 const pagesInput = document.getElementById("pages");
 const finishedInput = document.getElementById("finished");
+const form = document.getElementById("form");
 const formSubmitButton = document.getElementById("submit");
+const formCancelButton = document.getElementById("cancel");
+const addBookButton = document.getElementById("add-book");
+
+
+toggleTableVisibility(true);
 
 
 // Buttons listeners
 formSubmitButton.addEventListener("click", (e) => {
     e.preventDefault();
     addBookToLibrary();
-    addBookToTable();
+    addBookRow();
     clearFormInputs();
+    toggleTableVisibility(true);
+    form.classList.add('hidden');
 });
+
+
+addBookButton.addEventListener("click", () => {
+    toggleTableVisibility(false);
+    form.classList.remove('hidden');
+});
+
+formCancelButton.addEventListener("click", () => {
+    toggleTableVisibility(true);
+    form.classList.add('hidden');
+})
 
 
 // Book Constructor
@@ -43,6 +62,13 @@ Book.prototype.toggleFinished = function() {
 }
 
 
+// Display table if not empty 
+function toggleTableVisibility(isVisible) {
+    if (isVisible && myLibrary.length > 0) table.classList.remove('hidden');
+    else table.classList.add('hidden');
+}
+
+
 function addBookToLibrary() {
 
     let author = authorInput.value;
@@ -55,7 +81,7 @@ function addBookToLibrary() {
 }
 
 
-function addBookToTable() {
+function addBookRow() {
 
     //get table body:
     const tableBody = table.getElementsByTagName('tbody')[0];
