@@ -19,6 +19,7 @@ formSubmitButton.addEventListener("click", (e) => {
 });
 
 
+// Book Constructor
 function Book(author, title, pages, isFinished) {
     if (myLibrary.length === 0) {
         this.id = 0;
@@ -30,6 +31,15 @@ function Book(author, title, pages, isFinished) {
     this.title = title;
     this.pages = pages;
     this.isFinished = isFinished;
+}
+
+Book.prototype.toggleFinished = function() {
+    if (this.isFinished) {
+        this.isFinished = false;
+    }
+    else {
+        this.isFinished = true;
+    }
 }
 
 
@@ -61,14 +71,19 @@ function addBookToTable() {
     const index = myLibrary.length -1;
     const bookId = myLibrary[index].id;
 
+    // Checkbox value
+    let checked;
+    if (myLibrary[index].isFinished === true) checked = "checked";
+    else checked = "";
+
     // Add content to the new cells:
     authorCell.innerHTML = myLibrary[index].author;
     titleCell.innerHTML = myLibrary[index].title;
     pagesCell.innerHTML = myLibrary[index].pages;
-    checkboxCell.innerHTML = myLibrary[index].isFinished;
+    checkboxCell.innerHTML = `<input type="checkbox" value="${bookId}" onChange="toggleFinished(this)" ${checked}>`;
 
     // Insert button to remove book
-    removeButtonCell.innerHTML = `<button type="button" onclick="removeBook(this)" data-book-id="${bookId}">Remove</button>`
+    removeButtonCell.innerHTML = `<button type="button" onclick="removeBook(this)" data-book-id="${bookId}">Remove</button>`;
 
 }
 
@@ -92,4 +107,11 @@ function removeBook(removeButton) {
     const rowIndex = removeButton.parentNode.parentNode.rowIndex;
     table.deleteRow(rowIndex);
 
+}
+
+
+function toggleFinished(ckb) {
+    const bookId = parseInt(ckb.value);
+    const bookIndex = myLibrary.findIndex(book => book.id === bookId);
+    myLibrary[bookIndex].toggleFinished();
 }
