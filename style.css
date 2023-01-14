@@ -1,0 +1,51 @@
+.btn {
+    font-weight: 500;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+/* header */
+.container-fluid {
+    width: 90%;
+    margin: 8px auto;
+}
+
+.navbar-brand {
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* Table */
+
+.table {
+    width: 80%;
+    margin: 80px auto 0;
+}
+
+/* Form */
+
+form {
+    width: 500px;
+    margin: 80px auto;
+    padding: 40px;
+    background-color: #e8e8e8;
+    border-radius: 16px;
+}
+
+form h1 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+form .form-label,
+form .form-check-label {
+    font-weight: 500;
+}
+
+form .form-check {
+    margin: 32px 0;
+}
+
+form .btn {
+    width: 100%;
+}

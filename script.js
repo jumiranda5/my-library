@@ -57,8 +57,11 @@ function addBookToLibrary() {
 
 function addBookToTable() {
 
+    //get table body:
+    const tableBody = table.getElementsByTagName('tbody')[0];
+
     // Create an empty <tr> element and add it to the last position of the table:
-    const row = table.insertRow(-1);
+    const row = tableBody.insertRow(-1);
 
     // Insert cells:
     const authorCell = row.insertCell(0);
@@ -80,11 +83,18 @@ function addBookToTable() {
     authorCell.innerHTML = myLibrary[index].author;
     titleCell.innerHTML = myLibrary[index].title;
     pagesCell.innerHTML = myLibrary[index].pages;
-    checkboxCell.innerHTML = `<input type="checkbox" value="${bookId}" onChange="toggleFinished(this)" ${checked}>`;
+    checkboxCell.innerHTML = 
+        `<input type="checkbox" value="${bookId}" onChange="toggleFinished(this)" ${checked} class="form-check-input">`;
 
     // Insert button to remove book
-    removeButtonCell.innerHTML = `<button type="button" onclick="removeBook(this)" data-book-id="${bookId}">Remove</button>`;
+    removeButtonCell.innerHTML = 
+        `<button type="button" onclick="removeBook(this)" data-book-id="${bookId}" class="btn btn-outline-danger">Remove</button>`;
 
+    // Align cells text center vertical => align-middle from bootstrap 5
+    authorCell.classList.add("align-middle");
+    titleCell.classList.add("align-middle");
+    pagesCell.classList.add("align-middle");
+    checkboxCell.classList.add("align-middle");
 }
 
 
