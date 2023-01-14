@@ -1,44 +1,14 @@
+/* -------------------------------------
+              BOOKS LIST
+---------------------------------------- */
+
 let myLibrary = [];
 
 
-// Page elements
-const table = document.getElementById("data");
-const titleInput = document.getElementById("title");
-const authorInput = document.getElementById("author");
-const pagesInput = document.getElementById("pages");
-const finishedInput = document.getElementById("finished");
-const form = document.getElementById("form");
-const formSubmitButton = document.getElementById("submit");
-const formCancelButton = document.getElementById("cancel");
-const addBookButton = document.getElementById("add-book");
+/* -------------------------------------
+            BOOK CONSTRUCTOR
+---------------------------------------- */
 
-
-toggleTableVisibility(true);
-
-
-// Buttons listeners
-formSubmitButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    addBookToLibrary();
-    addBookRow();
-    clearFormInputs();
-    toggleTableVisibility(true);
-    form.classList.add('hidden');
-});
-
-
-addBookButton.addEventListener("click", () => {
-    toggleTableVisibility(false);
-    form.classList.remove('hidden');
-});
-
-formCancelButton.addEventListener("click", () => {
-    toggleTableVisibility(true);
-    form.classList.add('hidden');
-})
-
-
-// Book Constructor
 function Book(author, title, pages, isFinished) {
     if (myLibrary.length === 0) {
         this.id = 0;
@@ -53,31 +23,74 @@ function Book(author, title, pages, isFinished) {
 }
 
 Book.prototype.toggleFinished = function() {
-    if (this.isFinished) {
-        this.isFinished = false;
-    }
-    else {
-        this.isFinished = true;
-    }
+    if (this.isFinished) this.isFinished = false;
+    else this.isFinished = true;
 }
 
 
-// Display table if not empty 
-function toggleTableVisibility(isVisible) {
-    if (isVisible && myLibrary.length > 0) table.classList.remove('hidden');
+/* -------------------------------------
+              PAGE ELEMENTS
+---------------------------------------- */
+
+const table = document.getElementById("data");
+const titleInput = document.getElementById("title");
+const authorInput = document.getElementById("author");
+const pagesInput = document.getElementById("pages");
+const finishedInput = document.getElementById("finished");
+const form = document.getElementById("form");
+const formSubmitButton = document.getElementById("submit");
+const formCancelButton = document.getElementById("cancel");
+const addBookButton = document.getElementById("add-book");
+
+
+/* -------------------------------------
+            PAGE VISIBILITIES
+---------------------------------------- */
+
+showTable();
+
+function showTable() {
+    if (myLibrary.length > 0) table.classList.remove('hidden');
     else table.classList.add('hidden');
+    form.classList.add('hidden');
 }
 
+function showForm() {
+    table.classList.add('hidden');
+    form.classList.remove('hidden');
+}
+
+
+/* -------------------------------------
+            BUTTONS LISTENERS
+---------------------------------------- */
+
+formSubmitButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    addBookToLibrary();
+    addBookRow();
+    clearFormInputs();
+    showTable()
+});
+
+
+addBookButton.addEventListener("click", () => showForm());
+
+formCancelButton.addEventListener("click", () => showTable());
+
+
+
+/* -------------------------------------
+               ADD BOOK
+---------------------------------------- */
 
 function addBookToLibrary() {
-
     let author = authorInput.value;
     let title = titleInput.value;
     let pages = pagesInput.value;
     let isFinished = finishedInput.checked;
 
     myLibrary.push(new Book(author, title, pages, isFinished));
-
 }
 
 
@@ -96,7 +109,7 @@ function addBookRow() {
     const checkboxCell = row.insertCell(3);
     const removeButtonCell = row.insertCell(4);
 
-    // Last book index
+    // Inserted book index and id
     const index = myLibrary.length -1;
     const bookId = myLibrary[index].id;
 
@@ -105,14 +118,12 @@ function addBookRow() {
     if (myLibrary[index].isFinished === true) checked = "checked";
     else checked = "";
 
-    // Add content to the new cells:
+    // Add content to the new row:
     authorCell.innerHTML = myLibrary[index].author;
     titleCell.innerHTML = myLibrary[index].title;
     pagesCell.innerHTML = myLibrary[index].pages;
     checkboxCell.innerHTML = 
         `<input type="checkbox" value="${bookId}" onChange="toggleFinished(this)" ${checked} class="form-check-input">`;
-
-    // Insert button to remove book
     removeButtonCell.innerHTML = 
         `<button type="button" onclick="removeBook(this)" data-book-id="${bookId}" class="btn btn-outline-danger">Remove</button>`;
 
@@ -124,6 +135,10 @@ function addBookRow() {
 }
 
 
+/* -------------------------------------
+              CLEAR FORM
+---------------------------------------- */
+
 function clearFormInputs() {
     authorInput.value = "";
     titleInput.value = "";
@@ -132,8 +147,11 @@ function clearFormInputs() {
 }
 
 
-function removeBook(removeButton) {
+/* -------------------------------------
+           TABLE ROW BUTTONS
+---------------------------------------- */
 
+function removeBook(removeButton) {
     // Remove book from myLibrary list => find array index using book id
     const bookId = parseInt(removeButton.getAttribute("data-book-id"));
     const bookIndex = myLibrary.findIndex(book => book.id === bookId);
@@ -142,7 +160,6 @@ function removeBook(removeButton) {
     // Remove book from table
     const rowIndex = removeButton.parentNode.parentNode.rowIndex;
     table.deleteRow(rowIndex);
-
 }
 
 
