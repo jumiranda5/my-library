@@ -9,6 +9,39 @@
         <title>Library</title>
     </head>
     <body>
+
+        <header>
+            <h1>My Library</h1>
+        </header>
+
+        <table id="data">
+            <tr>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Pages</th>
+                <th>Finished</th>
+            </tr>
+        </table>
+
+        <button type="button">+ New Book</button>
+
+        <form action="#" method="post">
+
+            <label for="title">Title:</label>
+            <input id="title" type="text">
+
+            <label for="author">Author:</label>
+            <input id="author" type="text">
+
+            <label for="pages">Pages:</label>
+            <input id="pages" type="number">
+
+            <label for="read">Finished</label>
+            <input type="checkbox" name="read" id="read">
+
+            <button type="submit">Add</button>
+
+        </form>
     
     </body>
 </html>
