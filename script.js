@@ -9,23 +9,27 @@ let myLibrary = [];
             BOOK CONSTRUCTOR
 ---------------------------------------- */
 
-function Book(author, title, pages, isFinished) {
-    if (myLibrary.length === 0) {
-        this.id = 0;
+class Book {
+    constructor(author, title, pages, isFinished) {
+        if (myLibrary.length === 0) {
+            this.id = 0;
+        }
+        else {
+            this.id = myLibrary[myLibrary.length - 1].id + 1;
+        }
+        this.author = author;
+        this.title = title;
+        this.pages = pages;
+        this.isFinished = isFinished;
     }
-    else {
-        this.id = myLibrary[myLibrary.length - 1].id + 1;
+    toggleFinished() {
+        if (this.isFinished)
+            this.isFinished = false;
+        else
+            this.isFinished = true;
     }
-    this.author = author;
-    this.title = title;
-    this.pages = pages;
-    this.isFinished = isFinished;
 }
 
-Book.prototype.toggleFinished = function() {
-    if (this.isFinished) this.isFinished = false;
-    else this.isFinished = true;
-}
 
 
 /* -------------------------------------
